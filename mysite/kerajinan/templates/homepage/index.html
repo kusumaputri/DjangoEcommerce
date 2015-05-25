@@ -1,0 +1,56 @@
+{% extends 'kerajinan/base.html' %}
+
+{% block title %}
+	Index Page
+{% endblock %}
+
+{% block navi %}
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="navabr-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="mainmenu pull-left">
+					<ul class="nav navbar-nav collapse navbar-collapse">
+						<li><a href="{% url 'home' %}" class="active">Home</a></li>
+						<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="{% url 'product_list' %}">Products</a></li>
+								<li><a href="#">Checkout</a></li> 
+								<li><a href="#">Cart</a></li> 
+							
+                            </ul>
+                        </li> 
+						<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="#">Blog List</a></li>
+								<li><a href="#">Blog Single</a></li>
+                            </ul>
+                        </li> 
+						<li><a href="{% url 'homepage_about' %}">About</a></li>
+						<li><a href="{% url 'homepage_term-condition' %}">Term & Condition</a></li>
+						<li><a href="{% url 'homepage_contact' %}">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="search_box pull-right">
+					<input type="text" placeholder="Search"/>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block content %}
+	{% for e in entries %}
+		<div>{{ e.title }} . {{ e.created }}</div>
+		<div>{{ e.text }}</div>
+	{% endfor %}
+{% endblock %}

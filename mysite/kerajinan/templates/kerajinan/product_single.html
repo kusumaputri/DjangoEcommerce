@@ -1,0 +1,118 @@
+{% extends 'kerajinan/base.html' %}
+{% load pagination_tags %}
+
+{% block sidebar %}
+	<div class="left-sidebar">
+		<h2>Category</h2>
+		<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+							<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+							Sportswear
+						</a>
+					</h4>
+				</div>
+				<div id="sportswear" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ul>
+							<li><a href="#">Nike </a></li>
+							<li><a href="#">Under Armour </a></li>
+							<li><a href="#">Adidas </a></li>
+							<li><a href="#">Puma</a></li>
+							<li><a href="#">ASICS </a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			
+				{% for cat in categories %}
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a href="{% url 'view_kerajinan_category' slug=cat.slug %}">{{ cat.title }}</a>
+							</h4>
+						</div>
+					</div>
+				{% endfor %}
+		</div><!--/category-products-->
+	
+	</div>
+	{% endblock %}
+
+{% block details %}
+		<div class="col-sm-5">
+			<div class="view-product">
+				<img src="{{product.image.url}}" alt="">
+			</div>
+			<div id="similar-product" class="carousel slide" data-ride="carousel">
+					<div class="carousel-inner">
+							<div class="item {% if forloop.first %} active {% endif %}">
+							  <a href=""><img src="{{product.image.url}}" alt=""></a>
+							</div>
+					</div>
+
+				  <!-- Controls -->
+				  <a class="left item-control" href="#similar-product" data-slide="prev">
+					<i class="fa fa-angle-left"></i>
+				  </a>
+				  <a class="right item-control" href="#similar-product" data-slide="next">
+					<i class="fa fa-angle-right"></i>
+				  </a>
+			</div>
+		</div>
+		
+		<div class="col-sm-7">
+			<div class="product-information">
+					
+					<h2>{{ product.title }} </h2>
+					<p>{{ product.description }}</p>
+					<span>
+						<span>IDR {{product.price}},-</span>
+					</span>
+
+					<span>
+						<label>Quality:</label>
+						<form method='POST' action='{% url "add_to_cart" product.slug %}'>
+							{% csrf_token %}
+							<input type="text"  name='qty' value="1" />
+							<button type='submit' class="btn btn-fefault cart">
+								<i class="fa fa-shopping-cart"></i>
+								Add to cart
+							</button>
+
+							{% if product.variation_set.all %}
+
+
+							 	{% if product.variation_set.sizes %}
+							 	<select class='form-control' name='size'>
+							 	{% for item in product.variation_set.sizes %}
+							 		<option value='{{ item.title|lower }}'>{{ item.title|capfirst }}</option>
+							 		{% endfor %}
+							 	</select>
+							 	{% endif %}
+
+							 	 {% if product.variation_set.colors %}
+							 	<select class='form-control' name='color'>
+							 	{% for item in product.variation_set.colors %}
+							 		<option value='{{ item.title|lower }}'>{{ item.title|capfirst }}</option>
+							 		{% endfor %}
+							 	</select>
+							 	{% endif %}
+
+
+
+							 	{% endif %}
+						</form>
+					</span>
+					<p><b>Availability:</b> In Stock</p>
+					<p><b>Condition:</b> New</p>
+					<p><b>Brand:</b> Zalora</p>
+
+					<a href="#"><img src="images/product-details/share.png" class="share img-responsive" alt=""></a>
+			</div>
+		</div>
+	</div>
+{% endblock %}

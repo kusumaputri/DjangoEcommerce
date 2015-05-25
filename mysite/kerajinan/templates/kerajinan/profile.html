@@ -1,0 +1,15 @@
+{% extends "kerajinan/base.html" %}
+
+{% load admin_urls %}
+{% load bootstrap3 %}
+
+{% block title %}Profile{% endblock %}
+
+{% block profile %}
+	<h2 class="title text-center">Profile</h2>
+	<div class="container">
+		<h2>{{ user.get_username }}</h2>
+		<p><a href="{% url 'django.contrib.auth.views.password_change' %}">Change password</a></p>
+		 <a class="btn btn-default" href="/kerajinan/add_product/"><span class="glyphicon glyphicon-plus"></span></a>
+	</div>
+{% endblock %}

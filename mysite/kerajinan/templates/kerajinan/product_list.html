@@ -1,0 +1,93 @@
+{% extends 'kerajinan/base.html' %}
+{% load pagination_tags %}
+{% autopaginate object_list 1 %}
+
+{% block sidebar %}
+<div class="left-sidebar">
+	<h2>Category</h2>
+	<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+						<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+						Sportswear
+					</a>
+				</h4>
+			</div>
+			<div id="sportswear" class="panel-collapse collapse">
+				<div class="panel-body">
+					<ul>
+						<li><a href="#">Nike </a></li>
+						<li><a href="#">Under Armour </a></li>
+						<li><a href="#">Adidas </a></li>
+						<li><a href="#">Puma</a></li>
+						<li><a href="#">ASICS </a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		
+			{% for cat in categories %}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a href="{% url 'view_kerajinan_category' slug=cat.slug %}">{{ cat.title }}</a>
+						</h4>
+					</div>
+				</div>
+			{% endfor %}
+	</div><!--/category-products-->
+
+</div>
+{% endblock %}
+							
+{% block content %}
+	<h2 class="title text-center">Product</h2>
+	{% for post in posts %}
+	<div class="col-sm-4">
+		<div class="product-image-wrapper">
+			<div class="single-products">
+				<div class="production text-center">
+					<img src="{{post.image.url}}" alt="" />
+					<h2>{{ post.price }}</h2>
+					<p>{{ post.title }}</p>
+					<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+				</div>
+
+				<div class="product-overlay">
+					<div class="overlay-content">
+						<h2>{{ post.price }}</h2>
+						<p>{{ post.title }}</p>
+						<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+					</div>
+				</div>
+			</div>
+			<div class="choose">
+				<ul class="nav nav-pills nav-justified">
+					<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+					<li><a href="{% url 'product_detail' slug=post.slug %}"><i class="fa fa-plus-square"></i>View</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+
+	<ul class="pagination pagination-centered">
+		{% if posts.has_previous %}
+			<li><a href="?page=1"><<</a></li>
+			<li><a href="?page={{ posts.previous_page_number }}">Previous</a></li>
+		{% endif %}
+
+		{% for i in paginator.pages %}
+			<li {% if posts.number == i %} class="active" {% endif %} ><a href="?page={{i}}">{{I}}</a></li>
+		{% endfor %}
+
+
+		{% if posts.has_next %}
+			<li><a href="?page={{posts.next_page_number }}">Next</a></li>
+			<li><a href="?page={{posts.paginator.num_pages }}">>></a></li>
+		{% endif %}
+	</ul>  
+{% endblock content%}

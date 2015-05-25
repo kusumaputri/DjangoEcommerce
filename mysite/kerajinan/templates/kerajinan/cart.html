@@ -1,0 +1,125 @@
+{% extends 'kerajinan/base.html' %}
+
+{% block profile %}
+
+{% if empty %}
+
+<h1 style='text-align:center;'>{{ empty_message }}</h1>
+
+{% else %}
+
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">Home</a></li>
+				  <li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description">Description</td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in cart.cartitem_set.all %}
+							<tr>
+								<td class="cart_product">
+									<a href=""><img src="{{item.product.image.url}}" alt=""></a>
+								</td>
+								<td class="cart_description">
+									<h4>{{ item.product }} {% if item.variations.all %}<ul>{% for subitem in item.variations.all %}<li>{{ subitem.category|capfirst}} : {{ subitem.title|capfirst }}{% endfor %}</li><ul> {% endif %}</h4>
+								</td>
+								<td class="cart_price">
+									<p>{{ item.product.price }}</p>
+								</td>
+								<td class="cart_quantity">
+									<div class="cart_quantity_button">
+										{{item.quantity}}
+									</div>
+								</td>
+								<td class="cart_total">
+									<p class="cart_total_price">{{item.line_total}}</p>
+								</td>
+								<td class="cart_delete">
+									<a class="cart_quantity_delete" href='{% url "remove_from_cart" pk=item.pk %}'><i class="fa fa-times"></i></a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+
+	<section id="do_action">
+		<div class="container">
+			<div class="heading">
+				<h3>Apa yang ingin anda lakukan selanjutnya</h3>
+				<p>Pilih jika anda mempunyai code diskon saat melakukan transaksi</p>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="chose-area">
+						<ul class="user-option">
+							<li>
+								<input type="checkbox">
+								<label>Masukkan Code Kupon</label>
+							</li>
+							<li>
+								<input type="checkbox">
+								<label>Masukkan Gift Voucher</label>
+							</li>
+						</ul>
+
+						<ul class="user_info"> 
+							<li class="single_field">
+								<label>Provinsi</label>
+								<select name="" id="">
+									<option value="">Jakarta</option>
+									<option value="">Yogyakarta</option>
+									<option value="">Bandung</option>
+									<option value="">Semarang</option>
+									<option value="">Samarinda</option>
+								</select>
+							</li>
+							<li class="single_field">
+								<label>Wilayah</label>
+								<select name="" id="">
+									<option value="">Kota Yogyakarta</option>
+									<option value="">Sleman</option>
+									<option value="">Bantul</option>
+									<option value="">Wonosari</option>
+								</select>
+							</li>
+							<li class="single_field zip_field">
+								<label>Kode Pos</label>
+								<input type="text">
+							</li>
+						</ul>
+						<a href="#" class="btn btn-default update">Update</a>
+						<a href="#" class="btn btn-default check_out">Continue</a>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Ongkos Kirim <span>Free</span></li>
+							<li>Total <span>{{ cart.total }}</span></li>
+						</ul>
+						<a href="#" class="btn btn-default update">Update</a>
+						<a href='#' class="btn btn-default check_out">Check Out</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endif %}
+{% endblock %}

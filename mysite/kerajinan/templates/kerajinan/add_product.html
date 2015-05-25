@@ -1,0 +1,9 @@
+{% extends 'kerajinan/base.html' %}
+
+{% block profile %}
+	<h2 class="title text-center">Add New Product</h2>
+    <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}

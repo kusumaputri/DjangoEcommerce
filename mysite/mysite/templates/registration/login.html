@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+	<section id="form">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-1">
+					<div class="login-form">
+						{% if form.errors %}
+						    <div class="row">
+						    	<div class="alert alert-danger col-sm-offset-2 col-sm-6">
+						    		<p><strong>Login failed. Try again!!</strong></p>
+						    	</div>
+						    </div>
+						{% endif %}
+						<h2>Login to your account</h2>
+
+						<form action="{% url 'django.contrib.auth.views.login' %}" method="post" role="form">
+							{% csrf_token %}
+							{% bootstrap_field form.username layout='horizontal' %}
+							{% bootstrap_field form.password layout='horizontal' %}
+
+							{% if next %}
+							    <input type="hidden" name="next" value="{{ next }}">
+							{% else %}
+							    <input type="hidden" name="next" value="{% url 'home' %}">
+							{% endif %}
+
+							<p>Not yet registered?
+								<a href="{% url 'registration_register' %}">Register Now!!</a>
+							</p>
+							<p>Trouble signing in?
+								<a href="{% url 'django.contrib.auth.views.password_reset' %}">Reset password.</a>
+							</p>
+
+							{% buttons %}
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary">
+										{% bootstrap_icon "star" %} Login
+									</button>
+								</div>
+							{% endbuttons%}
+						</form>
+						
+					</div>
+				</div>
+
+				<div class="col-sm-1">
+					<h2 class="or">or</h2>
+				</div>
+				<div class="col-sm-4">
+					<div class="signup-form"><!--sign up form-->
+						{% if not user.is_authenticated %}
+							<a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}"><img src="/static/images/twitter.png" alt=""></a>
+							<a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img src="/static/images/facebook.jpeg" alt=""></a>
+							<a href="#"><img src="/static/images/google.jpeg" alt=""></a>
+						{% endif %}
+					</div><!--/sign up form-->
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- <div class="container">
+		<div class="row">
+			<div class="col-sm-offset-2 col-sm-10">
+				<h1>Sign In</h1>
+				<p>Not yet registered?
+					<a href="{% url 'registration_register' %}">Register Now!!</a>
+				</p>
+				<p>Trouble signing in?
+					<a href="{% url 'django.contrib.auth.views.password_reset' %}">Reset password.</a>
+				</p>
+			</div>
+		</div>
+
+		{% if form.errors %}
+		    <div class="row">
+		    	<div class="alert alert-danger col-sm-offset-2 col-sm-6">
+		    		<p><strong>Login failed. Try again!!</strong></p>
+		    	</div>
+		    </div>
+		{% endif %}
+
+		<form action="{% url 'django.contrib.auth.views.login' %}" method="post" role="form" class="form-horizontal">
+			{% csrf_token %}
+			{% bootstrap_field form.username layout='horizontal' %}
+			{% bootstrap_field form.password layout='horizontal' %}
+
+			{% if next %}
+			    <input type="hidden" name="next" value="{{ next }}">
+			{% else %}
+			    <input type="hidden" name="next" value="{% url 'home' %}">
+			{% endif %}
+
+			{% buttons %}
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary">
+						{% bootstrap_icon "star" %} Login
+					</button>
+				</div>
+			{% endbuttons%}
+		</form>
+	</div> -->
+{% endblock %}

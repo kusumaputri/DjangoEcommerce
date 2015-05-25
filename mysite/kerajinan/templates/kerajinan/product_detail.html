@@ -1,0 +1,15 @@
+{% extends 'kerajinan/base.html' %}
+
+{% block content %}
+    <div class="date">
+		
+		<!-- {% if request.user.is_staff %} -->
+		    <a class="btn btn-default" href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+
+		    <a class="btn btn-default" href="#"><span class="glyphicon glyphicon-remove"></span></a>
+		<!-- {% endif %} -->
+		
+    </div>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.text|linebreaks }}</p>
+{% endblock %}
